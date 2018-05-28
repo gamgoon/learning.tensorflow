@@ -12,6 +12,7 @@ b_real = -0.2 # 편향값
 # print(x_data.T.shape) # (3, 2000)
 
 noise = np.random.randn(1, 2000) * 0.1 # 가우시안 노이즈
+print(noise)
 y_data = np.matmul(w_real, x_data.T) + b_real + noise
 # print(y_data)
 
