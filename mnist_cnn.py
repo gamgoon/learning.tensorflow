@@ -4,6 +4,9 @@ from tensorflow.examples.tutorials.mnist import input_data
 from layers import *
 
 DATA_DIR = '/tmp/data'
+MINIBATCH_SIZE = 50
+STEPS = 5000
+
 mnist = input_data.read_data_sets(DATA_DIR, one_hot=True)
 
 x = tf.placeholder(tf.float32, shape=[None, 784])
@@ -33,13 +36,13 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
-    for i in range(5000):
-        batch = mnist.train.next_batch(50)
+    for i in range(STEPS):
+        batch = mnist.train.next_batch(MINIBATCH_SIZE)
 
-    if i % 100 == 0:
-        train_accuracy = sess.run(accuracy, feed_dict={x: batch[0], y_: batch[1], keep_prob:1.0})
+        if i % 100 == 0:
+            train_accuracy = sess.run(accuracy, feed_dict={x: batch[0], y_: batch[1], keep_prob:1.0})
 
-    sess.run(train_step, feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
+        sess.run(train_step, feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
 
     X = mnist.test.images.reshape(10, 1000, 784)
     Y = mnist.test.labels.reshape(10, 1000, 10)
